@@ -15,8 +15,6 @@ if uploaded_file is not None:
     df = preprocessor.preprocess(data)
     st.dataframe(df)
 
-
-
     # fetch group users unique values and show them on sidebar 
 
     # taking user column unique value and convertrd into list 
@@ -36,19 +34,23 @@ if uploaded_file is not None:
 
     if st.sidebar.button('Show Analysis'):
         # analysis part
-        num_messages, words, num_media_messages = helper.fetch_stats(selected_user, df)
+        num_messages, words, num_media_messages, num_links = helper.fetch_stats(selected_user, df)
    
         #1 create beta 4 colunms
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:  
             st.subheader('Total Messages')         
-            st.subheader(num_messages)
+            st.title(num_messages)
 
         with col2:
             st.subheader('Total Words')         
-            st.subheader(words)
+            st.title(words)
         
         with col3:  
-            st.subheader('Total Media Messages')         
-            st.subheader(num_media_messages)
+            st.subheader('Shared Media')         
+            st.title(num_media_messages)
+
+        with col3:  
+            st.subheader('Links Shared')         
+            st.title(num_links)
