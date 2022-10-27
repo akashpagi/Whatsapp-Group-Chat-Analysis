@@ -38,5 +38,6 @@ def preprocess(data):
     df['day'] = df['date'].dt.day
     df['hour'] = df['date'].dt.hour
     df['minute'] = df['date'].dt.minute
+    #df['second'] = df['date'].dt.second
 
     return df

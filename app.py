@@ -1,6 +1,6 @@
 import streamlit as st # pip install streamlit
 import preprocessor , helper # pip install preprocessor
-
+import matplotlib.pyplot as plt
 
 # for running the streamlit app use this command "streamlit run app.py"
 st.sidebar.title('Whats App Chat Analyser')
@@ -39,18 +39,36 @@ if uploaded_file is not None:
         #1 create beta 4 colunms
         col1, col2, col3, col4 = st.columns(4)
         
-        with col1:  
+        with col1:             
             st.subheader('Total Messages')         
-            st.title(num_messages)
+            st.subheader(num_messages)
 
         with col2:
             st.subheader('Total Words')         
-            st.title(words)
-        
-        with col3:  
-            st.subheader('Shared Media')         
-            st.title(num_media_messages)
+            st.subheader(words)  
 
         with col3:  
-            st.subheader('Links Shared')         
-            st.title(num_links)
+            st.subheader('Shared Media')        
+            st.subheader(num_media_messages)
+
+        with col3:
+            st.subheader('Shared Links')         
+            st.subheader(num_links)
+
+
+        # Finding the top 5 most active user and Show their percentages of activity in group
+        if selected_user == 'Overall':
+            st.title('Most Active Users ')
+            x, new_df = helper.most_active_users(df)
+            fig, ax = plt.subplots()           
+            col1, col2 = st.columns(2) 
+
+            with col1:               
+                ax.bar(x.index, x.values, width=0.6)
+                plt.xlabel("Users")
+                plt.ylabel("Messages Counts")
+                plt.xticks(rotation='vertical')
+                plt.title("Top 5 Active Users")
+                st.pyplot(fig)
+            with col2:
+                st.dataframe(new_df)
