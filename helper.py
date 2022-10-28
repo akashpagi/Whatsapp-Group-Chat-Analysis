@@ -1,4 +1,7 @@
 from urlextract import URLExtract
+from wordcloud import WordCloud
+import pandas as pd
+from collections import Counter
 
 # creating object for extract 
 extract = URLExtract()
@@ -30,56 +33,47 @@ def fetch_stats(selected_user, df):
 # Finding the top 5 most active user & plot bar and Show their percentages of activity in group 
 def most_active_users(df):
     x = df['user'].value_counts().head()
-    df = round((df['user'].value_counts()/df.shape[0])*100,2).reset_index().rename(columns = {'index':'name' , 'user':'percent'})
+    df = round((df['user'].value_counts()/df.shape[0])*100,2).reset_index().rename(columns = {'index':'name' , 'user':'percentage (%)'})
     return x,df
 
+def create_wordcloud(selected_user, df):
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
+    
+    # creating object of wordcloud class
+    wc = WordCloud(width=280, height=280, min_font_size=5, background_color='white')
+    #wc.generate a image of wordcloud
+    df_wc = wc.generate(df['message'].str.cat(sep=" "))
+    return df_wc
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-'''
-        # 1.fetch number of messages
-        num_messages = df.shape[0]
-
-        # 2.number of words
-        words = []
-        for message in df['message']:
-            words.extend(message.split())
-        return num_messages, len(words) 
-    else:
-        new_df = df[df['user'] == selected_user]
-        num_messages = new_df.shape[0]
-        words = []
-        for message in new_df['message']:
-            words.extend(message.split())
-        return num_messages, len(words)
-
-
- 
-
-
-        df = [df['user'] == selected_user]
-
-    num_messages = df.shape[0]    
+def most_common_words(selected_users,df):
+    # remove stop words
+    f = open('stop_hinglish.txt','r')
+    stop_words = f.read()
+    
+    if selected_users != 'Overall':
+        df = df[df['user'] == selected_users]
+    
+    # remove group notification
+    temp = df[df['user'] != 'group_notification']
+    temp = temp[temp['message'] != '<Media omitted>\n']
+    
     words = []
-    for message in df['message']:
-        words.extend(message.split())
+    for message in temp['message']:
+    #visit every msg then converting the msg into lower case fetch the words
+        for word in message.lower().split():
+            if word not in stop_words:
+                words.append(word)
 
-    return num_messages,len(words)
- 
-   '''      
+    #we have to import Counter form collections and with the help of counter findout the frequency of words
+    most_common_df = pd.DataFrame(Counter(words).most_common(20)) 
+    return most_common_df 
+
+
+
+
+
+
+
+

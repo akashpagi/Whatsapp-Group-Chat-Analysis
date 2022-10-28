@@ -51,24 +51,39 @@ if uploaded_file is not None:
             st.subheader('Shared Media')        
             st.subheader(num_media_messages)
 
-        with col3:
+        with col4:
             st.subheader('Shared Links')         
             st.subheader(num_links)
 
 
         # Finding the top 5 most active user and Show their percentages of activity in group
         if selected_user == 'Overall':
-            st.title('Most Active Users ')
+            st.header('# Most Active Users ')
             x, new_df = helper.most_active_users(df)
             fig, ax = plt.subplots()           
             col1, col2 = st.columns(2) 
 
-            with col1:               
+            with col1: 
+                st.text('Top 5 most active users in group')              
                 ax.bar(x.index, x.values, width=0.6)
                 plt.xlabel("Users")
-                plt.ylabel("Messages Counts")
+                plt.ylabel("Message Counts")
                 plt.xticks(rotation='vertical')
-                plt.title("Top 5 Active Users")
+                plt.title("Top 5 Active Users") #<h1 style='text-align: center; color: red;'>Some title</h1>", unsafe_allow_html=True
                 st.pyplot(fig)
+           
             with col2:
+                st.text('User messages in percentage')
                 st.dataframe(new_df)
+        
+        
+        # WordCloud 
+        st.header('# WordCloud')      
+        df_wc = helper.create_wordcloud(selected_user, df)
+        fig, ax = plt.subplots()         
+        ax.imshow(df_wc)
+        st.pyplot(fig)
+        
+        # most common words
+        most_common_df = helper.most_common_words(selected_user, df)
+        st.dataframe(most_common_df)
