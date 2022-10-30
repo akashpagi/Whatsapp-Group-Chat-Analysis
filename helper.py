@@ -1,6 +1,7 @@
 from urlextract import URLExtract
 from wordcloud import WordCloud
 import pandas as pd
+import emoji
 from collections import Counter
 
 # creating object for extract 
@@ -36,24 +37,43 @@ def most_active_users(df):
     df = round((df['user'].value_counts()/df.shape[0])*100,2).reset_index().rename(columns = {'index':'name' , 'user':'percentage (%)'})
     return x,df
 
-def create_wordcloud(selected_user, df):
+def create_wordcloud(selected_user, df):  
+        
+    # remove stop words
+    f = open('stop_hinglish.txt','r')
+    stop_words = f.read()
+    
     if selected_user != 'Overall':
         df = df[df['user'] == selected_user]
+        
+    # remove group notification
+    temp = df[df['user'] != 'group_notification']
+    temp = temp[temp['message'] != '<Media omitted>\n']
     
+    # creating nested function
+    #removing Hinglish stop words
+    def remove_stop_stops(message):
+        y = []
+        for word in message.lower().split():
+            if word not in stop_words:
+                y.append(word)
+        return ' '.join(y)
+        
     # creating object of wordcloud class
     wc = WordCloud(width=280, height=280, min_font_size=5, background_color='white')
+    temp['message'] = temp['message'].apply(remove_stop_stops)
     #wc.generate a image of wordcloud
     df_wc = wc.generate(df['message'].str.cat(sep=" "))
     return df_wc
 
 
-def most_common_words(selected_users,df):
+def most_common_words(selected_user,df):
     # remove stop words
     f = open('stop_hinglish.txt','r')
     stop_words = f.read()
     
-    if selected_users != 'Overall':
-        df = df[df['user'] == selected_users]
+    if selected_user != 'Overall': 
+        df = df[df['user'] == selected_user]
     
     # remove group notification
     temp = df[df['user'] != 'group_notification']
@@ -69,6 +89,18 @@ def most_common_words(selected_users,df):
     #we have to import Counter form collections and with the help of counter findout the frequency of words
     most_common_df = pd.DataFrame(Counter(words).most_common(20)) 
     return most_common_df 
+
+
+# Emojis Analysis
+def emoji_helper(selected_user, df):
+    if selected_user != 'Overall': 
+        df = df[df['user'] == selected_user] 
+    
+    emojis = []
+    for message in df['message']:
+        emojis.extend([c for c in message if c in emoji.UNICODE_EMOJI['en']])
+    emoji_df = pd.DataFrame(Counter(emojis).most_common(len(Counter(emojis))))
+    return emoji_df
 
 
 

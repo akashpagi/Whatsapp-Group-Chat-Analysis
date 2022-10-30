@@ -85,5 +85,20 @@ if uploaded_file is not None:
         st.pyplot(fig)
         
         # most common words
+        st.header('# Most Common Words')   
         most_common_df = helper.most_common_words(selected_user, df)
-        st.dataframe(most_common_df)
+        fig, ax = plt.subplots() 
+                
+        ax.barh(most_common_df[0],most_common_df[1]) # .barh means horizontal bar 
+        ax.grid(b = True, color ='green',
+        linestyle ='-.', linewidth = 0.5,
+        alpha = 0.2)
+        plt.xticks(rotation='vertical')
+        st.pyplot(fig)
+        
+        
+        # Emojis Analysis
+        emoji_df = helper.emoji_helper(selected_user, df)
+        st.dataframe(emoji_df)
+        
+        
