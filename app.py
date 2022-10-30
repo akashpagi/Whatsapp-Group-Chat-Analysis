@@ -13,7 +13,7 @@ if uploaded_file is not None:
     data = bytes_data.decode('utf-8')
 
     df = preprocessor.preprocess(data)
-    st.dataframe(df)
+    #st.dataframe(df)
 
     # fetch group users unique values and show them on sidebar 
 
@@ -35,7 +35,7 @@ if uploaded_file is not None:
     if st.sidebar.button('Show Analysis'):
         # analysis part
         num_messages, words, num_media_messages, num_links = helper.fetch_stats(selected_user, df)
-   
+        st.header('# Top Statistics')
         #1 create beta 4 colunms
         col1, col2, col3, col4 = st.columns(4)
         
@@ -97,8 +97,6 @@ if uploaded_file is not None:
         st.pyplot(fig)
         
         
-        # Emojis Analysis
-        emoji_df = helper.emoji_helper(selected_user, df)
-        st.dataframe(emoji_df)
+        
         
         
