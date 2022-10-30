@@ -1,3 +1,4 @@
+from logging.handlers import TimedRotatingFileHandler
 import streamlit as st # pip install streamlit
 import preprocessor , helper # pip install preprocessor
 import matplotlib.pyplot as plt
@@ -84,6 +85,14 @@ if uploaded_file is not None:
         ax.imshow(df_wc)
         st.pyplot(fig)
         
+        #timeline of bt month
+        st.header("Monthly Timeline")
+        timeline = helper.monthly_timeline(selected_user,df)
+        fig,ax = plt.subplots()
+        ax.plot(timeline['time'], timeline['message'],color='red')
+        plt.xticks(rotation='vertical')
+        st.pyplot(fig)
+         
         # most common words
         st.header('# Most Common Words')   
         most_common_df = helper.most_common_words(selected_user, df)
@@ -95,6 +104,9 @@ if uploaded_file is not None:
         alpha = 0.2)
         plt.xticks(rotation='vertical')
         st.pyplot(fig)
+        
+        
+        
         
         
         
