@@ -86,7 +86,7 @@ if uploaded_file is not None:
         st.pyplot(fig)
         
         #timeline of bt month
-        st.header("Monthly Timeline")
+        st.header("# Monthly Timeline")
         timeline = helper.monthly_timeline(selected_user,df)
         fig,ax = plt.subplots()
         ax.plot(timeline['time'], timeline['message'],color='red')
@@ -97,8 +97,9 @@ if uploaded_file is not None:
         st.header('# Most Common Words')   
         most_common_df = helper.most_common_words(selected_user, df)
         fig, ax = plt.subplots() 
-                
-        ax.barh(most_common_df[0],most_common_df[1]) # .barh means horizontal bar 
+           
+        # .barh means horizontal bar      
+        ax.barh(most_common_df[0],most_common_df[1]) 
         ax.grid(b = True, color ='green',
         linestyle ='-.', linewidth = 0.5,
         alpha = 0.2)
