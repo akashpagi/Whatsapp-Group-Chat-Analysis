@@ -17,6 +17,6 @@ Here I used different python libraries which help me to extract useful informati
 - **Libraries/Modules:** streamlit (Framework) ,Regex ,matplotlib ,seaborn ,urlextract ,wordcloud , pandas .
 
 ### REFERENCES 
-**Article link:** https://www.analyticsvidhya.com/blog/2021/04/whatsapp-group-chat-analyzer-using-python/
-**Seaborn Documentation:** https://seaborn.pydata.org/
-**Streamlit Documentation:** https://docs.streamlit.io/
+- **Article link:** https://www.analyticsvidhya.com/blog/2021/04/whatsapp-group-chat-analyzer-using-python/
+- **Seaborn Documentation:** https://seaborn.pydata.org/
+- **Streamlit Documentation:** https://docs.streamlit.io/
