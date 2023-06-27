@@ -1,4 +1,4 @@
-## WHATAPP GROUP CHAT ANALYSIS 
+## WHATSAPP GROUP CHAT ANALYSIS 
 - WhatsApp Analyzer means we are analyzing our WhatsApp group activities.It tracks our conversation and analyzes how much time we are spending on WhatsApp
 Here I used different python libraries which help me to extract useful information from raw data.
 - This project uses simple python modules/libraries such as pandas,matplotlib, seaborn , Regex(re) , urlextract, wordcloud which are used to create data frames and plot different graphs, where then it is displayed in the streamlit application.
